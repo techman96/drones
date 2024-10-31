@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "description": "The first known fatal US drone strike inside Pakistan. The strike was carried out with prior ISI approval, according to ‘a senior CIA official who served in the region’.[1]  Pakistan’s Army initially claimed the attack as its own work.  ‘In a secret deal, the CIA had agreed to kill him in exchange for access to airspace.[2]",
+      "location":"Wana",
+      "district":"South Waziristan",
+      "division":"DIK",
+      "date":"June 17, 2004", 
+      "year":"2004",
+      "total_deaths": "6-8",
+      "civ_killed": "2", 
+      "child_killed": "2", 
+      "injured": "1+",
+      "target": "Nek Mohammed", 
+      "ref1":"https://www.newyorker.com/magazine/2014/11/24/    unblinking-stare",
+      "ref2":"https://archive.ph/liAGc",
+      "source_link":"https://www.thebureauinvestigates.com/drone-war/data/the-bush-years-pakistan-strikes-2004-2009/",
+      "source": "Source: The Bureau of Investigative Journalism"},
+      "geometry": {
+        "coordinates": [
+          69.55412188117813,
+          32.270811003896206
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "description": "A failed strike against Abu Hamza Rabia(‘al Qaeda’s Number 3’). Once again the Pakistan Army initially claimed responsibility for the attack, blaming it on a blast caused whilst militants prepared bombs.[1] This attack was carried out with prior approval from the ISI.[2]",
+      "location":"Mosaki",
+      "district":"North Waziristan",
+      "division":"Bannu",
+      "date":"Nov 5, 2005",
+      "year":"2004",
+      "total_deaths": "8",
+      "civ_killed": "4-8", 
+      "child_killed": "3 (all girls)", 
+      "injured": "1",
+      "target": "Abu Hamza Rabia", 
+      "ref1":"https://gulfnews.com/world/asia/pakistan/accidental-blast-while-assembling-bombs-kills-eight-1.443552",
+      "ref2":"https://www.newyorker.com/magazine/2014/11/24/unblinking-stare",
+
+      "source_link":"https://www.thebureauinvestigates.com/drone-war/data/the-bush-years-pakistan-strikes-2004-2009/",
+      "source": "Source: The Bureau of Investigative Journalism"},
+      "geometry": { 
+        "coordinates": [
+          70.3408,
+          32.9999
+        ],
+        "type": "Point"
+      }
+    }
+  ]
+}
