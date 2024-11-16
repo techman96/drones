@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js | Homework 4</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <style>
+        /* Basic styles for the SVG */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+        padding: 5px;
+        text-align: left;
+        }
+
+        td.bold {
+            color: red;
+        }
+
+        svg {
+            overflow: visible;
+        }
+
+        /* tooltip classes */
+
+        span.bold {
+            font-weight: 700;
+        }
+
+            rect {
+            cursor: pointer;
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 5px;
+            background-color: #fff;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border: 1px solid black;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Button -->
+    <button id="switch_data">Change to career points</button>
+
+    <!-- div container -->
+    <div id="container"></div>
+
+
+    <script>
+
+        //make tooltip
+        const tooltip = d3.select('body')
+        .append('div')
+        .attr('class','tooltip')
+
+        //select button
+        const button = d3.select('#switch_data')
+
+
+        //select container
+        const container = d3.select('#container');
+
+        // append SVG
+        const svg = container.append('svg');
+
+        //add margin
+        const margin_left = 200;
+        const margin_top = 20;
+
+
+        //Import the csv
+        d3.csv('nba_data.csv').then(function(data){
+
+            //convert the points from strings to numbers
+            data.forEach(d => {
+                //rename properties, convert to numbers
+                d.ppg = +d['points_per_game'];
+                d.car = +d['career_points'];
+            });
+
+            // sort players by points per game, with highest on top
+            data = data.sort(function(x, y){
+                return d3.descending(x.ppg, y.ppg);
+            })
+
+            // Add a scale for the career points
+            const barLength_career = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.career_points)]) 
+                .range([5,100]) 
+
+
+            // Add a scale to make the bars from 0px to 100px
+            const barLength = d3.scaleLinear()
+                .domain([0,30.1]) //input values
+                .range([5,100]) //output values
+
+            //number scale (scaleLinear)
+            const textColor = d3.scaleOrdinal()
+                .domain(["Michael Jordan",'Lebron James','Karl Malone','Kobe Bryant','Kareem Abdul-Jabbar']) //input values
+                .range(["red","red","Purple","Purple","Purple"]) //output values
+
+
+            //add group of text with players names
+            svg.selectAll('text')
+            .data(data)
+            .enter()
+            .append('text')
+            .attr('x', function(d,i){
+                return margin_left;
+            })
+            .attr('text-anchor','end')
+            .attr('y',function(d,i){
+                return margin_top + (i * 35);
+            })
+            .attr('fill',function(d){
+                return textColor(d.player)
+            })
+            .text(function(d,i){
+                return d.player;
+            })
+
+            svg.selectAll('rectangles')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('x', function(d,i){
+                return margin_left + 10;
+            })
+            .attr('y',function(d,i){
+                return (margin_top - 15) + (i * 35);
+            })
+            .attr('width', function(d,i){
+                //adjust bar length
+                return barLength(d.ppg);
+            })
+            .attr('height', 20)
+            .attr('fill', 'gray')
+            //make mousemove event
+            .on('mousemove',function(event,d){
+                d3.select(this).style('opacity',0.5)
+                tooltip
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY + 10) + "px")
+                .style('opacity',1)
+                .text("Per Capita: $" + d.car);
+            })
+            //make mouseout event
+            .on('mouseleave',function(){
+                    //opacity for circle back to 1
+                    d3.select(this).style('opacity',1)
+                    //tooltip dissapears
+                    tooltip
+                    .style('opacity',0)
+                })
+            //add class
+            .attr('class','rectangles')
+
+            svg.selectAll('number_text')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('x', function(d){
+                    //adjust position of text
+                    return margin_left + barLength(d.ppg) + 15;
+                })
+                .attr('text-anchor','start')
+                .attr('y',function(d,i){
+                    return margin_top + (i * 35);
+                })
+                .text(function(d){
+                    return d.ppg;
+                })
+                .attr('class','number_text')
+
+                let isToggled = false;
+
+                button.on('click',function(){
+                    
+                    if(isToggled){
+                    d3.select(this)
+                    .text("Change to career points")
+
+                    svg.selectAll('.rectangles')
+                    .transition()
+                    .duration(500) 
+                    .attr("width", function(d){
+                        return barLength(d.ppg)
+                    })
+                    .attr('fill','GoldenRod')
+
+                    svg.selectAll('.number_text')
+                    .transition()
+                    .duration(500)
+                    .attr('x', d => {
+                    return margin_left + barLength(d.ppg) + 15;
+                    })
+                    .text(d => {
+                        return d.ppg
+                    })
+                    
+                } else {
+                    d3.select(this)
+                    .text("Change to points per game")
+
+                    svg.selectAll('.rectangles')
+                    .transition()
+                    .duration(500) 
+                    .attr("width", function(d){
+                        return barLength(d.car / 700)
+                    })
+                    .attr('fill','yellowgreen')
+
+                    svg.selectAll('.number_text')
+                    .transition()
+                    .duration(500)
+                    .attr('x', d => {
+                    return margin_left + barLength(d.car / 700) + 15;
+                    })
+                    .text(d => {
+                        return d.car
+                    })
+                }
+
+                isToggled = !isToggled
+                    
+                })
+        });
+
+    </script>
+</body>
+</html>

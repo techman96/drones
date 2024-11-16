@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+th, td {
+padding: 5px;
+text-align: left;
+}
+
+td.bold {
+  color: red;
+}
+
+svg {
+  overflow: visible;
+}
+
+.header{
+  margin: 0 auto;
+  text-align: center;
+  font-size: 2.5em;
+  padding: 20px;
+  padding-bottom: 10px;
+  font-style: italic;
+  font-weight: bolder;
+}
+
+.maplibregl-popup {
+  max-width: 900px;
+  font: 10px/16.5px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+span.bold {
+  font-weight: 700;
+}
+
+  rect {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px;
+  background-color: #fff;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border: 1px solid black;
+}
+
+#container{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  max-width: 80%;
+  padding:30px;
+  height: 65vh;
+  margin: 0 auto;
+}
+
+.text{
+  font-size: 15px;
+  color: red;
+}
+
+.content {
+  padding: 50px 80px;
+  max-width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  text-align: justify;
+  background-color: white;
+  color: #777;
+  font-size: 1.25em;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+}
